@@ -12,18 +12,16 @@ services:
        ports: 
           - "1194:1194/udp"
        environment:
-           REQ_COUNTRY: UA
-           REQ_PROVINCE: Kyiv
-           REQ_CITY: Chayka
-           REQ_ORG: CopyleftCertificateCo
-           REQ_OU: ShantiShanti
-           REQ_CN: MyOpenVPN
+           TRUST_SUB: {{ ovpn_trusted_subnet }}
+           GUEST_SUB: {{ ovpn_guest_subnet }}
+           HOME_SUB: {{ ovpn_home_subnet }}
        volumes:
            - ./pki:/etc/openvpn/pki
            - ./clients:/etc/openvpn/clients
            - ./config:/etc/openvpn/config
            - ./staticclients:/etc/openvpn/staticclients
            - ./log:/var/log/openvpn
+           - ./fw-rules.sh:/opt/app/fw-rules.sh
        cap_add:
            - NET_ADMIN
        restart: always
